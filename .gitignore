@@ -1,0 +1,16 @@
+# secrets and local state - added by telegram_setup.py
+config.json
+config.json.bak
+config.local.json
+bot_state_*.json
+trades.csv
+engine.lock
+backtest_trades.csv
+research_report.txt
+strategy_lab_report.txt
+__pycache__/
+*.pyc
+.env
+backup-*/
+.venv/
+research_cache/
