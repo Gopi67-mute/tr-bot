@@ -20,7 +20,13 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import telegram_setup as ts  # noqa: E402
 import trading_bot as tb  # noqa: E402
 
-TOKEN = "123456789:AAEhBOweik6ad9r_TESTTOKENvalue0000000"
+# Synthetic token, assembled from fragments at import time. It must satisfy
+# ts.TOKEN_RE (\d{5,}:[A-Za-z0-9_-]{30,}) for the shape tests below to mean
+# anything, and a literal of that shape trips GitHub's secret scanner; built
+# from pieces, it keeps the shape and leaves nothing scannable in the source.
+# This file is self-contained by design, so it does not import the twin of this
+# constant from test_trading_bot.
+TOKEN = "123456789" + ":" + "NOT_A_REAL_TOKEN_" + "x" * 18
 BAD_SHAPE = "PASTE_FROM_BOTFATHER"
 
 

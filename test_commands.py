@@ -20,11 +20,11 @@ import unittest
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import trading_bot as tb  # noqa: E402
-from test_trading_bot import (H4, HOUR, MIN, RULES, FakeClient,  # noqa: E402
-                              FakeRequests, TempProject, candles, cfg,
-                              signal_series_long)
+from test_trading_bot import (FAKE_TOKEN, H4, HOUR, MIN, RULES,  # noqa: E402
+                              FakeClient, FakeRequests, TempProject, candles,
+                              cfg, signal_series_long)
 
-TOKEN = "123456789:AAEhBOweik6ad9r_TESTTOKENvalue0000000"
+TOKEN = FAKE_TOKEN           # synthetic; see test_trading_bot.FAKE_TOKEN
 CHAT = "4242424242"          # not a real chat id
 
 

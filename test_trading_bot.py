@@ -32,6 +32,16 @@ RULES = {
     "SOLUSDT": {"step": 0.1, "min_qty": 0.1, "min_notional": 5.0, "tick": 0.001},
 }
 
+# Synthetic credentials, assembled from fragments at import time.
+#
+# The token has to satisfy telegram_setup.TOKEN_RE (\d{5,}:[A-Za-z0-9_-]{30,})
+# for the shape tests to mean anything, and a literal of that shape looks enough
+# like a real bot token to trip GitHub's secret scanner. Building it from pieces
+# keeps the shape while leaving no scannable token in the source. Neither value
+# is valid anywhere: nothing in this suite reaches a network.
+FAKE_TOKEN = "123456789" + ":" + "NOT_A_REAL_TOKEN_" + "x" * 18
+FAKE_SECRET = "NOT_A_REAL_" + "API_SECRET_" + "0" * 8
+
 
 def cfg(**over):
     c = dict(tb.DEFAULTS)
@@ -1091,8 +1101,8 @@ class TestNetworkFailures(TempProject):
         self.assertIn("Margin is insufficient", str(e))
 
     def test_error_messages_never_leak_credentials(self):
-        secret = "S3cr3tApiSecretValue1234567890"
-        token = "123456789:AAEhBOweik6ad9r_AbCdEfGhIjKlMnOpQrS"
+        secret = FAKE_SECRET
+        token = FAKE_TOKEN
         leaky = (f"HTTPSConnectionPool(host='api.telegram.org'): url "
                  f"/bot{token}/sendMessage failed; signature=deadbeefcafe "
                  f"api_secret={secret}")
@@ -1145,7 +1155,7 @@ class FakeRequests:
 
 
 class TestTelegram(unittest.TestCase):
-    TOKEN = "123456789:AAEhBOweik6ad9r_TESTTOKENvalue0000000"
+    TOKEN = FAKE_TOKEN
 
     def setUp(self):
         self._requests = tb.requests

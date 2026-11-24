@@ -21,9 +21,9 @@ import unittest
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import trading_bot as tb  # noqa: E402
-from test_trading_bot import (H4, HOUR, MIN, RULES, FakeClient,  # noqa: E402
-                              FakeNotifier, TempProject, candles, cfg,
-                              signal_series_long)
+from test_trading_bot import (FAKE_TOKEN, H4, HOUR, MIN, RULES,  # noqa: E402
+                              FakeClient, FakeNotifier, TempProject, candles,
+                              cfg, signal_series_long)
 
 # A command must finish well inside this. The target is a second; the assertion
 # allows more so a slow CI box does not fail a correct implementation.
@@ -858,13 +858,13 @@ class TestPerfReporting(Timed):
         self.assertGreater(ops["cmd end-to-end latency"]["last_ms"], 3000)
 
     def test_the_health_report_contains_no_secrets(self):
-        conf = cfg(telegram_token="123456789:AAsecretTOKENvalue000000000000",
+        conf = cfg(telegram_token=FAKE_TOKEN,
                    telegram_chat_id="999888777",
                    api_key="KEY1234567890", api_secret="SECRET1234567890")
         bot, n, _, _ = self.build(conf=conf)
         bot.step()
         bot.dispatch("/health", [])
-        for secret in ("AAsecretTOKENvalue000000000000", "999888777",
+        for secret in (FAKE_TOKEN.split(":", 1)[1], "999888777",
                        "KEY1234567890", "SECRET1234567890"):
             self.assertNotIn(secret, n.last())
 
